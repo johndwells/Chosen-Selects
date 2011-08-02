@@ -4,9 +4,9 @@ Chosen Selects
 Overview
 --------
 
-Chosen is a is a Javascript library for making long, unwieldy select boxes more friendly. It transforms both single select dropdowns and multiselect boxes.
+[https://github.com/harvesthq/chosen/](Chosen) is a is a Javascript library for making long, unwieldy select boxes more friendly. It transforms both single select dropdowns and multiselect boxes. More information at [http://harvesthq.github.com/chosen/](http://harvesthq.github.com/chosen/).
 
-Chosen Selects is an ExpressionEngine fieldtype that brings Chosen to EE. At its core it is a simple Dropdown or Multiselect fieldtype, only the UI has been changed.
+Chosen Selects is an [http://www.expressionengine.com](ExpressionEngine) fieldtype that brings Chosen to EE. At its core it is a simple Dropdown or Multiselect fieldtype, only the UI has been changed.
 
 
 ## Beta Status
@@ -16,8 +16,9 @@ Currently there are a number of shortcomings, all of which will be addressed as 
 
 Current shortcomings include:
 
-* No Matrix support
 * UI breaks if field is initially hidden in tab or collapsed
+* No Matrix support
+* Template tags have not been extensively tested
 
 
 ## Requirements
@@ -25,7 +26,7 @@ Current shortcomings include:
 * ExpressionEngine 2
 * PHP5
 * jQuery 1.4+
-* A modern browser: [Firefox][firefox], [Safari][safari], [Google Chrome][chrome] or IE7+
+* A modern browser: [Firefox](http://getfirefox.com), [Safari](http://www.apple.com/safari/download/), [Google Chrome](http://www.google.com/chrome) or IE7+
 
 
 ## Changelog
