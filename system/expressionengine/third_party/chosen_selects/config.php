@@ -2,7 +2,7 @@
 if (! defined('CHOSEN_SELECTS_KEY'))
 {
 	define('CHOSEN_SELECTS_NAME', 'Chosen Selects');
-	define('CHOSEN_SELECTS_VER',  '1.0.0');
+	define('CHOSEN_SELECTS_VER',  '0.1.0');
 	define('CHOSEN_SELECTS_KEY', 'chosen_selects');
 	define('CHOSEN_SELECTS_AUTHOR',  'John D Wells');
 	define('CHOSEN_SELECTS_DOCS',  'http://johndwells.com/software/chosen');
