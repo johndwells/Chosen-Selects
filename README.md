@@ -4,7 +4,7 @@ Chosen Selects
 Overview
 --------
 
-[Chosen](https://github.com/harvesthq/chosen/) is a is a Javascript library for making long, unwieldy select boxes more friendly. It transforms both single select dropdowns and multiselect boxes. More information and demos at [http://harvesthq.github.com/chosen/](http://harvesthq.github.com/chosen/).
+[Chosen](https://github.com/harvesthq/chosen/) is a Javascript library for making long, unwieldy select boxes more friendly. It transforms both single select dropdowns and multiselect boxes. More information and demos at [http://harvesthq.github.com/chosen/](http://harvesthq.github.com/chosen/).
 
 Chosen Selects is an [ExpressionEngine](http://www.expressionengine.com) fieldtype that brings Chosen to EE. At its core it is a simple Dropdown or Multiselect fieldtype, only the UI has been changed.
 
