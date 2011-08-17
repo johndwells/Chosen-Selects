@@ -1,9 +1,4 @@
 /* @group Base */
-select.chzn-select {
-  visibility: hidden;
-  height: 28px !important;
-  min-height: 28px !important;
-}
 .chzn-container {
   font-size: 13px;
   position: relative;
@@ -60,7 +55,6 @@ select.chzn-select {
   white-space: nowrap;
   -o-text-overflow: ellipsis;
   -ms-text-overflow: ellipsis;
-  -moz-binding: url('/xml/ellipsis.xml#ellipsis');
   text-overflow: ellipsis;
 }
 .chzn-container-single .chzn-single div {

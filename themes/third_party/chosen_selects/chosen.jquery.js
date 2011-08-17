@@ -17,6 +17,9 @@
   $ = jQuery;
   $.fn.extend({
     chosen: function(data, options) {
+      if ($.browser === "msie" && ($.browser.version === "6.0" || $.browser.version === "7.0")) {
+        return this;
+      }
       return $(this).each(function(input_field) {
         if (!($(this)).hasClass("chzn-done")) {
           return new Chosen(this, data, options);
@@ -55,7 +58,7 @@
       this.default_text = this.form_field_jq.data('placeholder') ? this.form_field_jq.data('placeholder') : this.default_text_default;
       container_div = $("<div />", {
         id: this.container_id,
-        "class": "chzn-container " + (this.is_rtl ? ' chzn-rtl' : void 0),
+        "class": "chzn-container " + (this.is_rtl ? 'chzn-rtl' : ''),
         style: 'width: ' + this.f_width + 'px;'
       });
       if (this.is_multiple) {
@@ -92,8 +95,8 @@
       return this.set_tab_index();
     };
     Chosen.prototype.register_observers = function() {
-      this.container.click(__bind(function(evt) {
-        return this.container_click(evt);
+      this.container.mousedown(__bind(function(evt) {
+        return this.container_mousedown(evt);
       }, this));
       this.container.mouseenter(__bind(function(evt) {
         return this.mouse_enter(evt);
@@ -101,8 +104,8 @@
       this.container.mouseleave(__bind(function(evt) {
         return this.mouse_leave(evt);
       }, this));
-      this.search_results.click(__bind(function(evt) {
-        return this.search_results_click(evt);
+      this.search_results.mouseup(__bind(function(evt) {
+        return this.search_results_mouseup(evt);
       }, this));
       this.search_results.mouseover(__bind(function(evt) {
         return this.search_results_mouseover(evt);
@@ -135,8 +138,8 @@
         }, this));
       }
     };
-    Chosen.prototype.container_click = function(evt) {
-      if (evt && evt.type === "click") {
+    Chosen.prototype.container_mousedown = function(evt) {
+      if (evt && evt.type === "mousedown") {
         evt.stopPropagation();
       }
       if (!this.pending_destroy_click) {
@@ -164,7 +167,7 @@
     Chosen.prototype.input_focus = function(evt) {
       if (!this.active_field) {
         return setTimeout((__bind(function() {
-          return this.container_click();
+          return this.container_mousedown();
         }, this)), 50);
       }
     };
@@ -353,12 +356,12 @@
         return this.search_field.removeClass("default");
       }
     };
-    Chosen.prototype.search_results_click = function(evt) {
+    Chosen.prototype.search_results_mouseup = function(evt) {
       var target;
       target = $(evt.target).hasClass("active-result") ? $(evt.target) : $(evt.target).parents(".active-result").first();
       if (target.length) {
         this.result_highlight = target;
-        return this.result_select();
+        return this.result_select(evt);
       }
     };
     Chosen.prototype.search_results_mouseover = function(evt) {
@@ -403,7 +406,7 @@
       this.result_deselect(link.attr("rel"));
       return link.parents('li').first().remove();
     };
-    Chosen.prototype.result_select = function() {
+    Chosen.prototype.result_select = function(evt) {
       var high, high_id, item, position;
       if (this.result_highlight) {
         high = this.result_highlight;
@@ -424,7 +427,9 @@
         } else {
           this.selected_item.find("span").first().text(item.text);
         }
-        this.results_hide();
+        if (!(evt.metaKey && this.is_multiple)) {
+          this.results_hide();
+        }
         this.search_field.val("");
         this.form_field_jq.trigger("change");
         return this.search_field_scale();
@@ -612,7 +617,7 @@
         case 13:
           evt.preventDefault();
           if (this.results_showing) {
-            return this.result_select();
+            return this.result_select(evt);
           }
           break;
         case 27:
@@ -624,6 +629,8 @@
         case 38:
         case 40:
         case 16:
+        case 91:
+        case 17:
           break;
         default:
           return this.results_search();

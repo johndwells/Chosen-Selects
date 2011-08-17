@@ -46,7 +46,7 @@
       this.f_width = this.form_field.getStyle("width") ? parseInt(this.form_field.getStyle("width"), 10) : this.form_field.getWidth();
       container_props = {
         'id': this.container_id,
-        'class': "chzn-container " + (this.is_rtl ? ' chzn-rtl' : void 0),
+        'class': "chzn-container " + (this.is_rtl ? 'chzn-rtl' : ''),
         'style': 'width: ' + this.f_width + 'px'
       };
       this.default_text = this.form_field.readAttribute('data-placeholder') ? this.form_field.readAttribute('data-placeholder') : this.default_text_default;
@@ -86,8 +86,8 @@
       return this.set_tab_index();
     };
     Chosen.prototype.register_observers = function() {
-      this.container.observe("click", __bind(function(evt) {
-        return this.container_click(evt);
+      this.container.observe("mousedown", __bind(function(evt) {
+        return this.container_mousedown(evt);
       }, this));
       this.container.observe("mouseenter", __bind(function(evt) {
         return this.mouse_enter(evt);
@@ -95,8 +95,8 @@
       this.container.observe("mouseleave", __bind(function(evt) {
         return this.mouse_leave(evt);
       }, this));
-      this.search_results.observe("click", __bind(function(evt) {
-        return this.search_results_click(evt);
+      this.search_results.observe("mouseup", __bind(function(evt) {
+        return this.search_results_mouseup(evt);
       }, this));
       this.search_results.observe("mouseover", __bind(function(evt) {
         return this.search_results_mouseover(evt);
@@ -129,8 +129,8 @@
         }, this));
       }
     };
-    Chosen.prototype.container_click = function(evt) {
-      if (evt && evt.type === "click") {
+    Chosen.prototype.container_mousedown = function(evt) {
+      if (evt && evt.type === "mousedown") {
         evt.stop();
       }
       if (!this.pending_destroy_click) {
@@ -156,7 +156,7 @@
     };
     Chosen.prototype.input_focus = function(evt) {
       if (!this.active_field) {
-        return setTimeout(this.container_click.bind(this), 50);
+        return setTimeout(this.container_mousedown.bind(this), 50);
       }
     };
     Chosen.prototype.input_blur = function(evt) {
@@ -340,12 +340,12 @@
         return this.search_field.removeClassName("default");
       }
     };
-    Chosen.prototype.search_results_click = function(evt) {
+    Chosen.prototype.search_results_mouseup = function(evt) {
       var target;
       target = evt.target.hasClassName("active-result") ? evt.target : evt.target.up(".active-result");
       if (target) {
         this.result_highlight = target;
-        return this.result_select();
+        return this.result_select(evt);
       }
     };
     Chosen.prototype.search_results_mouseover = function(evt) {
@@ -396,7 +396,7 @@
       this.result_deselect(link.readAttribute("rel"));
       return link.up('li').remove();
     };
-    Chosen.prototype.result_select = function() {
+    Chosen.prototype.result_select = function(evt) {
       var high, item, position;
       if (this.result_highlight) {
         high = this.result_highlight;
@@ -416,7 +416,9 @@
         } else {
           this.selected_item.down("span").update(item.html);
         }
-        this.results_hide();
+        if (!(evt.metaKey && this.is_multiple)) {
+          this.results_hide();
+        }
         this.search_field.value = "";
         if (typeof Event.simulate === 'function') {
           this.form_field.simulate("change");
@@ -619,7 +621,7 @@
         case 13:
           evt.preventDefault();
           if (this.results_showing) {
-            return this.result_select();
+            return this.result_select(evt);
           }
           break;
         case 27:
@@ -631,6 +633,8 @@
         case 38:
         case 40:
         case 16:
+        case 91:
+        case 17:
           break;
         default:
           return this.results_search();
@@ -689,8 +693,16 @@
     return Chosen;
   })();
   root.Chosen = Chosen;
+  if (Prototype.Browser.IE) {
+    if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
+      Prototype.BrowserFeatures['Version'] = new Number(RegExp.$1);
+    }
+  }
   document.observe('dom:loaded', function(evt) {
     var select, selects, _i, _len, _results;
+    if (Prototype.Browser.IE && (Prototype.BrowserFeatures['Version'] === 6 || Prototype.BrowserFeatures['Version'] === 7)) {
+      return;
+    }
     selects = $$(".chzn-select");
     _results = [];
     for (_i = 0, _len = selects.length; _i < _len; _i++) {
